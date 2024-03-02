@@ -74,9 +74,9 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace "com.builder"
+    namespace "kg.besoft.builder.mobile"
     defaultConfig {
-        applicationId "com.builder"
+        applicationId "kg.besoft.builder.mobile"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

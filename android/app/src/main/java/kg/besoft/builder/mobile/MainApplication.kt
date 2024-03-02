@@ -1,4 +1,4 @@
-package com.builder
+package kg.besoft.builder.mobile
 
 import android.app.Application
 import com.facebook.react.PackageList
