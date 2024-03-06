@@ -10,8 +10,14 @@
     "test": "jest"
   },
   "dependencies": {
+    "@openspacelabs/react-native-zoomable-view": "^2.1.5",
+    "@shopify/react-native-skia": "^0.1.241",
+    "material-colors": "^1.2.6",
     "react": "18.2.0",
-    "react-native": "0.73.5"
+    "react-native": "0.73.5",
+    "react-native-gesture-handler": "^2.15.0",
+    "react-native-reanimated": "^3.7.2",
+    "react-native-svg": "^15.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
@@ -21,6 +27,7 @@
     "@react-native/eslint-config": "0.73.2",
     "@react-native/metro-config": "0.73.5",
     "@react-native/typescript-config": "0.73.1",
+    "@types/material-colors": "^1.2.3",
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
