@@ -13,7 +13,7 @@ function App(): React.JSX.Element {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
-          name={'D'}
+          name={'Builder'}
           options={{headerShown: false}}
           component={HomeScreen}
         />
@@ -21,7 +21,7 @@ function App(): React.JSX.Element {
           name={'NewProjectScreen'}
           options={{
             headerTintColor: '#257ae7',
-            title: 'hjkh',
+            title: 'Новый проект',
             headerRight: () => (
               <TouchableOpacity>
                 <Icon size={24} name="save" color="#257ae7" />

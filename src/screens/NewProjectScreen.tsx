@@ -7,7 +7,7 @@ import Animated, {
 import {useCallback, useMemo, useState} from 'react';
 import {grey, green, red} from 'material-colors';
 import {Dimensions, Text, TouchableOpacity, View} from 'react-native';
-import LineComponent from './components/LineComponent';
+import LineComponent from '../components/LineComponent';
 import {Gesture, GestureDetector} from 'react-native-gesture-handler';
 
 const screenDimension = Dimensions.get('screen');
