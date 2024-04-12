@@ -20,6 +20,7 @@ function App(): React.JSX.Element {
         <Stack.Screen
           name={'NewProjectScreen'}
           options={{
+            headerShown: false,
             headerTintColor: '#257ae7',
             title: 'Новый проект',
             headerRight: () => (

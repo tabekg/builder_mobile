@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, Text, TouchableOpacity, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 function HomeScreen() {
   const navigation = useNavigation();
@@ -89,6 +90,7 @@ function HomeScreen() {
           }}>
           d
         </Text>
+        <Icon name="rocket" size={30} color="#900" />
       </View>
     </>
   );

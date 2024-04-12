@@ -1,75 +1,132 @@
 import React, {useMemo} from 'react';
-import {CM_IN_PIXELS, projectSize} from '../utils/config.ts';
-import {Line, useImage} from '@shopify/react-native-skia';
+import {CM_IN_PIXELS} from '../utils/config.ts';
+import {Line} from '@shopify/react-native-skia';
 import {grey} from 'material-colors';
+import {SCREEN_DIMENSION} from '../utils/index.ts';
+import {SharedValue, useDerivedValue} from 'react-native-reanimated';
 
-export const GridOverlayComponent = () => {
-  const width = projectSize[0] / 5;
-  const height = projectSize[1] / 5;
+const WightLineComponent = ({
+  g,
+  scale,
+  side,
+}: {
+  g: number;
+  scale: SharedValue<number>;
+  side: string;
+}) => {
+  const p1 = useDerivedValue(
+    () => ({
+      x: SCREEN_DIMENSION.width / 2 + CM_IN_PIXELS * scale.value * g,
+      y: 0,
+    }),
+    [scale],
+  );
+  const p2 = useDerivedValue(
+    () => ({
+      x: SCREEN_DIMENSION.width / 2 + CM_IN_PIXELS * scale.value * g,
+      y: SCREEN_DIMENSION.height,
+    }),
+    [scale],
+  );
 
-  const gridOverlay = useImage(require('../assets/grid-overlay.png'));
+  return (
+    <Line
+      key={'vertical-lines-' + side + '-' + g}
+      color={grey[300]}
+      style="stroke"
+      strokeWidth={1}
+      p1={p1}
+      p2={p2}
+    />
+  );
+};
 
+const HeightLineComponent = ({
+  g,
+  scale,
+  side,
+}: {
+  g: number;
+  scale: SharedValue<number>;
+  side: string;
+}) => {
+  const p1 = useDerivedValue(
+    () => ({
+      y: SCREEN_DIMENSION.height / 2 + CM_IN_PIXELS * scale.value * g,
+      x: 0,
+    }),
+    [scale],
+  );
+  const p2 = useDerivedValue(
+    () => ({
+      y: SCREEN_DIMENSION.height / 2 + CM_IN_PIXELS * scale.value * g,
+      x: SCREEN_DIMENSION.width,
+    }),
+    [scale],
+  );
+
+  return (
+    <Line
+      key={'horizontal-lines-' + side + '-' + g}
+      color={grey[300]}
+      style="stroke"
+      strokeWidth={1}
+      p1={p1}
+      p2={p2}
+    />
+  );
+};
+
+function VerticalLinesComponent({scale}: {scale: SharedValue<number>}) {
+  return (
+    <>
+      {Array.from(
+        Array(Math.floor(SCREEN_DIMENSION.width / CM_IN_PIXELS) * 10),
+      ).map((_, g) => (
+        <WightLineComponent side={'left'} key={g} g={g + 1} scale={scale} />
+      ))}
+      <WightLineComponent side={'center'} g={0} scale={scale} />
+      {Array.from(
+        Array(Math.floor(SCREEN_DIMENSION.width / CM_IN_PIXELS) * 10),
+      ).map((_, g) => (
+        <WightLineComponent side={'right'} key={g} g={-(g + 1)} scale={scale} />
+      ))}
+    </>
+  );
+}
+
+function HorizontalLinesComponent({scale}: {scale: SharedValue<number>}) {
+  return (
+    <>
+      {Array.from(
+        Array(Math.floor(SCREEN_DIMENSION.height / CM_IN_PIXELS) * 10),
+      ).map((_, g) => (
+        <HeightLineComponent side={'top'} key={g} g={g + 1} scale={scale} />
+      ))}
+      <HeightLineComponent side={'center'} g={0} scale={scale} />
+      {Array.from(
+        Array(Math.floor(SCREEN_DIMENSION.height / CM_IN_PIXELS) * 10),
+      ).map((_, g) => (
+        <HeightLineComponent
+          side={'bottom'}
+          key={g}
+          g={-(g + 1)}
+          scale={scale}
+        />
+      ))}
+    </>
+  );
+}
+
+export const GridOverlayComponent = ({scale}: {scale: SharedValue<number>}) => {
   const content = useMemo(() => {
-    // return (
-    //   <VirtualizedList
-    //     renderItem={({index}) => (
-    //       <Image
-    //         key={index}
-    //         image={gridOverlay}
-    //         width={500}
-    //         height={500}
-    //         x={index * 500}
-    //         y={index * 500}
-    //       />
-    //     )}
-    //     keyExtractor={(_, index) => index.toString()}
-    //     getItemCount={() => width * height}
-    //     getItem={(_, i) => i}
-    //   />
-    // );
-
     return (
       <>
-        {Array.from(Array(width * 5 * 100 * CM_IN_PIXELS + 1)).map((_, g) => (
-          <Line
-            color={grey[400]}
-            style="stroke"
-            strokeWidth={1}
-            p1={{x: 0, y: g * CM_IN_PIXELS}}
-            p2={{x: width * 5 * 100 * CM_IN_PIXELS, y: g * CM_IN_PIXELS}}
-          />
-        ))}
-        {Array.from(Array(height * 5 * 100 * CM_IN_PIXELS + 1)).map((_, g) => (
-          <Line
-            color={grey[400]}
-            style="stroke"
-            strokeWidth={1}
-            p1={{x: g * CM_IN_PIXELS, y: 0}}
-            p2={{x: g * CM_IN_PIXELS, y: height * 5 * 100 * CM_IN_PIXELS}}
-          />
-        ))}
+        <VerticalLinesComponent scale={scale} />
+        <HorizontalLinesComponent scale={scale} />
       </>
     );
-
-    // return (
-    //   <>
-    //     {Array.from(Array(width)).map((_, g) => (
-    //       <Fragment key={g}>
-    //         {Array.from(Array(height)).map((_, j) => (
-    //           <Image
-    //             key={g + '-' + j}
-    //             image={gridOverlay}
-    //             width={500}
-    //             height={500}
-    //             x={g * 500}
-    //             y={j * 500}
-    //           />
-    //         ))}
-    //       </Fragment>
-    //     ))}
-    //   </>
-    // );
-  }, [gridOverlay]);
+  }, [scale]);
 
   return content;
 };
